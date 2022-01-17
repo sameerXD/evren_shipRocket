@@ -21,24 +21,6 @@ class User(db.Model):
     kyc_verified = db.Column(db.Boolean, default=False)
     active = db.Column(db.Integer, default=1)
 
-    def __init__(self,name,email, country_code, mobile_number, enc_password, address,city,state,pincode,country,organization_name,created_at=None,updated_at=None, kyc_verified=None,active=None,_id=None,wallet_ballance=None):
-        self.id = _id
-        self.name = name
-        self.email = email
-        self.country_code = country_code
-        self.mobile_number = mobile_number
-        self.address = address
-        self.city = city
-        self.pincode = pincode
-        self.country = country
-        self.organization_name = organization_name
-        self.created_at = created_at
-        self.updated_at = updated_at
-        self.kyc_verified = kyc_verified
-        self.active = active
-        self.state = state
-        self.enc_password = enc_password
-
 
     def json(self):
          return {"name":self.name,"email":self.email }
@@ -46,3 +28,8 @@ class User(db.Model):
     def save_user(self):
         db.session.add(self)
         db.session.commit()
+
+    @classmethod
+    def get_user(cls,email):
+        # return User.query.filter_by(email=email).all()
+        return cls.query.filter_by(email=email).first()

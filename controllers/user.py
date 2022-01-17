@@ -20,8 +20,13 @@ schema = {
 v = Validator(schema)
 
 
-def get_user():
-    return {"name":"sameer"}
+def get_user(email):
+    user = User.get_user(email)
+    if user:
+        return {"name":user.name,
+                "password":user.enc_password}
+    else:
+        return "Message Error!!"
 
 def post_user(data):
     if v.validate(data):

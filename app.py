@@ -27,9 +27,14 @@ def create_table():
 @app.route("/api/users", methods=["GET", "POST"])
 def user():
     if request.method == "GET":
-        return get_user()
+        return get_user(request.json["email"])
     if request.method == "POST":
         return post_user(request.json)
+
+@app.route("/api/user/kyc",methods=["POST"])
+def kyc():
+    if request.method == "POST":
+        return post_kyc(request.json)
   
 
 if __name__=="__main__":
