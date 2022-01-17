@@ -1,11 +1,16 @@
-from flask import Flask,request
+from flask import Flask,request,jsonify
 import os
 from flask_bcrypt import Bcrypt
 
 # controller imports
-from controllers.user import get_user, post_user
+from controllers.user import get_user, post_user, signIn
+from utils.security import token_required
+
+# middlewares
+
 
 app = Flask(__name__)
+
 
 
 # tell the location of database
@@ -15,9 +20,11 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.config['SQLALCHEMY_ECHO']=True
 
 # bcrypt configuration
-app.config['SECRET_KEY'] = 'super-secret'
-app.config['SECURITY_PASSWORD_HASH'] = 'bcrypt'
-app.config['SECURITY_PASSWORD_SALT'] = b'$2b$12$wqKlYjmOfXPghx3FuC3Pu.'
+app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
+app.config['SECURITY_PASSWORD_HASH'] = os.environ.get("SECURITY_PASSWORD_HASH")
+app.config['SECURITY_PASSWORD_SALT'] = os.environ.get("SECURITY_PASSWORD_SALT")
+
+
 
 # we can create the db and tables using sql alchemy 
 @app.before_first_request
@@ -26,10 +33,19 @@ def create_table():
 
 @app.route("/api/users", methods=["GET", "POST"])
 def user():
-    if request.method == "GET":
-        return get_user(request.json["email"])
     if request.method == "POST":
         return post_user(request.json)
+
+@app.route("/api/user", methods=["GET"])
+@token_required
+def get_profile(user):
+        return user.json()
+
+
+@app.route("/api/users/signIn", methods=["POST"])
+def user_signIn():
+    return jsonify(signIn(request.json))
+    
 
 @app.route("/api/user/kyc",methods=["POST"])
 def kyc():
