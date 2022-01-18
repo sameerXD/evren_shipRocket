@@ -23,13 +23,19 @@ class User(db.Model):
 
 
     def json(self):
-         return {"name":self.name,"email":self.email }
+        self_dict = self.__dict__
+        user_dict = {x:self_dict[x] for x in self_dict.keys() if not x.startswith("_") and x!="enc_password"}
+        return(user_dict)
+        return {"user_dict":"sam"}
 
     def save_user(self):
         db.session.add(self)
         db.session.commit()
 
     @classmethod
-    def get_user(cls,email):
-        # return User.query.filter_by(email=email).all()
+    def get_user_by_email(cls,email):
         return cls.query.filter_by(email=email).first()
+
+    @classmethod
+    def get_user_by_id(cls,id):
+        return cls.query.filter_by(id=id).first()
