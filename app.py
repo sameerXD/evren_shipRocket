@@ -32,25 +32,6 @@ def create_table():
     db.create_all()
 
 
-
-@app.route("/api/user/kyc",methods=["POST"])
-@token_required
-def kyc(user):
-    if user.kyc_verified:
-        return "KYC already verified"
-    if details_submitted(user):
-        return "Details already submitted"
-    if request.method == "POST":
-        return post_kyc(user, request.json)
-
-
-@app.route("/api/add/store",methods=["POST"])
-@token_required
-def store(user):
-    if request.method == "POST":
-        return add
-  
-
 if __name__=="__main__":
     from db import db
     db.init_app(app)
