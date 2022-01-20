@@ -29,6 +29,7 @@ class User(db.Model):
         user_dict = {x:self_dict[x] for x in self_dict.keys() if not x.startswith("_") and x!="enc_password"}
         return (user_dict)
 
+
     def save_user(self):
         db.session.add(self)
         db.session.commit()

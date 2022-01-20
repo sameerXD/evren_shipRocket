@@ -2,17 +2,15 @@ from flask import Flask,request,jsonify
 import os
 from flask_bcrypt import Bcrypt
 
-# controller imports
-from controllers.user import post_user, signIn
-from controllers.user import get_user
-from utils.security import token_required
-from controllers.kyc import post_kyc, details_submitted
-
-# middlewares
 
 
 app = Flask(__name__)
 
+# imports routes blueprint
+from routes.user import user_page
+
+# register blueprints
+app.register_blueprint(user_page)
 
 
 # tell the location of database
@@ -33,21 +31,7 @@ app.config['SECURITY_PASSWORD_SALT'] = os.environ.get("SECURITY_PASSWORD_SALT")
 def create_table():
     db.create_all()
 
-@app.route("/api/users", methods=["GET", "POST"])
-def user():
-    if request.method == "POST":
-        return post_user(request.json)
 
-@app.route("/api/user", methods=["GET"])
-@token_required
-def get_profile(user):
-        return user.json()
-
-
-@app.route("/api/users/signIn", methods=["POST"])
-def user_signIn():
-    return (signIn(request.json))
-    
 
 @app.route("/api/user/kyc",methods=["POST"])
 @token_required
