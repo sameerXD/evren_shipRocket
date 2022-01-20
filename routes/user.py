@@ -1,4 +1,4 @@
-from controllers.user import get_user, post_user, signIn
+from controllers.user import get_user, post_user, signIn,get_user_profile
 from flask import Blueprint , request
 from utils.security import token_required
 
@@ -19,4 +19,4 @@ def user():
 @user_page.route("/api/user", methods=["GET"])
 @token_required
 def get_profile(user):
-        return user.json()    
+    return get_user_profile(user)   
