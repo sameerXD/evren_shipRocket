@@ -21,11 +21,14 @@ class User(db.Model):
     kyc_verified = db.Column(db.Boolean, default=False)
     active = db.Column(db.Integer, default=1)
 
+# profile_pic_url
+
 
     def json(self):
         self_dict = self.__dict__
         user_dict = {x:self_dict[x] for x in self_dict.keys() if not x.startswith("_") and x!="enc_password"}
-        return(user_dict)
+        return (user_dict)
+
 
     def save_user(self):
         db.session.add(self)
