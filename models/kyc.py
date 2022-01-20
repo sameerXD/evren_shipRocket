@@ -2,7 +2,6 @@ from datetime import date, datetime
 from sqlite3 import Date
 from db import db
 
-
 class KYC(db.Model):
     kyc_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, unique=True)
@@ -16,5 +15,8 @@ class KYC(db.Model):
     bank_account_name = db.Column(db.String(100))
     # IFSC Code
     service_code = db.Column(db.String(20))
+# updated_at, status_message, status_code
 
-
+    def save_kyc_data(self):
+        db.session.add(self)
+        db.session.commit()

@@ -3,8 +3,10 @@ import os
 from flask_bcrypt import Bcrypt
 
 # controller imports
-from controllers.user import get_user, post_user, signIn
+from controllers.user import post_user, signIn
+from controllers.user import get_user
 from utils.security import token_required
+from controllers.kyc import post_kyc, details_submitted
 
 # middlewares
 
@@ -44,13 +46,25 @@ def get_profile(user):
 
 @app.route("/api/users/signIn", methods=["POST"])
 def user_signIn():
-    return jsonify(signIn(request.json))
+    return (signIn(request.json))
     
 
 @app.route("/api/user/kyc",methods=["POST"])
-def kyc():
+@token_required
+def kyc(user):
+    if user.kyc_verified:
+        return "KYC already verified"
+    if details_submitted(user):
+        return "Details already submitted"
     if request.method == "POST":
-        return post_kyc(request.json)
+        return post_kyc(user, request.json)
+
+
+@app.route("/api/add/store",methods=["POST"])
+@token_required
+def store(user):
+    if request.method == "POST":
+        return add
   
 
 if __name__=="__main__":
