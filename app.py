@@ -1,13 +1,4 @@
-from flask import Flask,request,jsonify
-import os
-from flask_bcrypt import Bcrypt
-
-# controller imports
-from controllers.user import get_user, post_user, signIn
-from utils.security import token_required
-
-# middlewares
-
+from index import *
 
 app = Flask(__name__)
 
@@ -44,7 +35,7 @@ def get_profile(user):
 
 @app.route("/api/users/signIn", methods=["POST"])
 def user_signIn():
-    return jsonify(signIn(request.json))
+    return signIn(request.json)
     
 
 @app.route("/api/user/kyc",methods=["POST"])

@@ -26,7 +26,6 @@ class User(db.Model):
         self_dict = self.__dict__
         user_dict = {x:self_dict[x] for x in self_dict.keys() if not x.startswith("_") and x!="enc_password"}
         return(user_dict)
-        return {"user_dict":"sam"}
 
     def save_user(self):
         db.session.add(self)

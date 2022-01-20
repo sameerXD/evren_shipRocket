@@ -8,8 +8,10 @@ from flask import request,jsonify
 import jwt
 
 def create_user_token(user):
+    # creating jwt token 
     token = jwt.encode({
         "user_id":user.id,
+        "email":user.email,
         'exp' : datetime.utcnow() + timedelta(minutes = 30)
     },os.environ.get("SECRET_KEY_USER"))
     return token.decode('UTF-8')
@@ -26,6 +28,11 @@ def token_required(f):
                 # decoding the payload to fetch the stored details
                 data = jwt.decode(token, os.environ.get("SECRET_KEY_USER"))
                 current_user = User.get_user_by_id(data["user_id"])
+                # check if user is blocked 
+                if current_user.active == 0:
+                    return jsonify({
+                    'message' : 'user is blocked by admin !!',
+                }), 401
             except:
                 return jsonify({
                     'message' : 'Token is invalid !!',

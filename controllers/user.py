@@ -1,3 +1,5 @@
+from ast import Lambda
+from urllib import response
 from flask import jsonify,make_response
 from cerberus import Validator
 from models.user import User
@@ -27,7 +29,15 @@ def post_user(data):
         if user:
             try:
                 user.save_user()
-                return {"name":"{}, {}".format(data["name"], user.json())}
+                response_user = {
+                    "name":user.name,
+                    "email":user.email,
+                    "address":user.address,
+                    "created_at":user.created_at,
+                    "id":user.id
+                    }
+
+                return {"data":response_user}
             except:
                 return {"message":"Internal server err"}
 
