@@ -6,27 +6,35 @@ from controllers.user import User
 
 from schema.kyc import schema as kyc_schema
 
-def post_kyc(user,data):
-    # inserting the user id from user(arg.) into the json input of the request (i.e. data)
-    data["user_id"] = user.id
+from utils.utils import send_respose
+from utils.config import db_code
 
+def post_kyc(data):
+    # inserting the user id from user(arg.) into the json input of the request (i.e. data)
     v = Validator(kyc_schema)
     if v.validate(data):
         kyc_data = KYC(**data)
         if kyc_data:
             try:
                 kyc_data.save_kyc_data()
-                return("KYC details submitted successfully.")
+                return send_response(200,{},"KYC details submitted successfully.","")
             except:
-                return("Details were not submitted!!")
+                return send_respose(401,{},"","Details were not submitted!!")
 
     return "Schema Validation failed!!"
 
-def details_submitted(user):
-# checking if the details are already submitted and are under review
-    Id = user.id
-    details = User.query.filter_by(id=Id).first()
-    if details:
-        return True
-    else:
-        return False
+
+def get_kyc_details(id):
+    status = KYC.kyc_status(id)
+    if status==db_code.kyc_status.rejected:
+        return send_respose(200,{},'Your Kyc has been rejected',"")
+
+    if(status==db_code.kyc_status.verified):
+        details = KYC.get_details_by_user_id(id)
+        return send_respose(200,{'kyc_id':details.kyc_id},'Kyc already verified',"")
+
+    if(status==db_code.kyc_status.under_review):
+        details = KYC.get_details_by_user_id(id)
+        return send_respose(200,{'kyc_id':details.kyc_id},'Details are under review',"")
+
+
