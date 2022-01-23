@@ -1,4 +1,4 @@
-from controllers.user import get_user, post_user, signIn,get_user_profile
+from controllers.user import get_user, post_user,  signIn,get_user_profile,verify_email,resend_otp_for_user
 from flask import Blueprint , request
 from utils.security import token_required
 
@@ -20,3 +20,12 @@ def user():
 @token_required
 def get_profile(user):
     return get_user_profile(user)   
+
+@user_page.route('/api/OtpVerification', methods=["PUT"])
+def otp_verification():
+    return verify_email(request.json)
+
+
+@user_page.route('/api/resendOtp/', methods=["GET"])
+def resend_otp():
+    return resend_otp_for_user(request.args.get("email"))
