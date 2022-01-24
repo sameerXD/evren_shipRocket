@@ -2,6 +2,7 @@ from flask import Flask,request,jsonify
 import os
 from flask_bcrypt import Bcrypt
 
+from flask_mail import Mail,Message
 
 
 app = Flask(__name__)
@@ -26,6 +27,15 @@ app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY")
 app.config['SECURITY_PASSWORD_HASH'] = os.environ.get("SECURITY_PASSWORD_HASH")
 app.config['SECURITY_PASSWORD_SALT'] = os.environ.get("SECURITY_PASSWORD_SALT")
 
+# mail config
+# configuration of mail
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = os.environ.get("EMAIL")
+app.config['MAIL_PASSWORD'] = os.environ.get("PASSWORD")
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail= Mail()
 
 
 # we can create the db and tables using sql alchemy 
@@ -34,8 +44,10 @@ def create_table():
     db.create_all()
 
 
+
 if __name__=="__main__":
     from db import db
     db.init_app(app)
+    mail.init_app(app)
     bcrypt =Bcrypt(app)
     app.run(port=os.environ.get("BACKEND_PORT"),debug=True) 

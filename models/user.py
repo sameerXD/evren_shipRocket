@@ -20,6 +20,7 @@ class User(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False,default = datetime.now())
     kyc_verified = db.Column(db.Boolean, default=False)
     active = db.Column(db.Integer, default=1)
+    email_verified = db.Column(db.Integer, default=0)
 
 # profile_pic_url
 
