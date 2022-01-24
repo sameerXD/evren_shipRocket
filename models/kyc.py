@@ -38,3 +38,13 @@ class KYC(db.Model):
     @classmethod
     def get_details_by_user_id(cls,user_id):
         return cls.query.filter_by(user_id=user_id).first()
+
+    @classmethod
+    def update_details(cls, data):
+        row = cls.query.filter_by(user_id=data["user_id"])
+        try:
+            for attribute in data.keys():
+                row.attribute = data[attribute]
+            return "success"
+        except:
+            return "error"

@@ -10,10 +10,12 @@ app = Flask(__name__)
 # imports routes blueprint
 from routes.user import user_page
 from routes.kyc import kyc_page
+from routes.stores import stores_page
 
 # register blueprints
 app.register_blueprint(user_page)
 app.register_blueprint(kyc_page)
+app.register_blueprint(stores_page)
 
 
 # tell the location of database
