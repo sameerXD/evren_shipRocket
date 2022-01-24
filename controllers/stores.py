@@ -55,3 +55,15 @@ def update_store_details(data):
             return send_respose(401,{},"",'Details were not updated')
     else:
         return send_respose(401,{},"","Store doesn't exist")
+
+
+def set_primary_store(user_id, store_id):
+    temp = Stores.set_primary(user_id,store_id)
+
+    if temp=="error":
+        return send_respose(401,{},"","Error to set as primary!!")
+
+    else:
+        return send_respose(200, {"details":temp.json()},"Store succesfully set as primary","")
+    
+

@@ -42,9 +42,12 @@ class KYC(db.Model):
     @classmethod
     def update_details(cls, data):
         row = cls.query.filter_by(user_id=data["user_id"])
+         
+        # Now extract the input from json request i.e. data and update it on the desired row i.e. row
         try:
             for attribute in data.keys():
                 row.attribute = data[attribute]
+            db.session.commit()
             return "success"
         except:
             return "error"

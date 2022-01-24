@@ -1,4 +1,4 @@
-from controllers.stores import add_store, all_stores, update_store_details
+from controllers.stores import add_store, all_stores, update_store_details, set_primary_store
 from flask import Blueprint , request
 from utils.security import token_required
 
@@ -26,3 +26,13 @@ def update_store(user,store_id):
         request.json["user_id"] = user.id
         request.json["store_id"] = store_id
         return update_store_details(request.json)
+
+
+@stores_page.route("/api/set/primary/<store_id>", methods=["PUT"])
+@token_required
+def set_as_primary(user, store_id):
+    if request.method == "PUT":
+        return set_primary_store(user.id, store_id)
+
+
+
