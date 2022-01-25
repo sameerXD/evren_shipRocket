@@ -1,4 +1,4 @@
-from controllers.user import get_user, post_user,  signIn,get_user_profile,verify_email,resend_otp_for_user
+from controllers.user import get_user, post_user,  signIn,get_user_profile,verify_email,resend_otp_for_user,req_change_password,change_password
 from flask import Blueprint , request
 from utils.security import token_required
 
@@ -29,3 +29,13 @@ def otp_verification():
 @user_page.route('/api/resendOtp/', methods=["GET"])
 def resend_otp():
     return resend_otp_for_user(request.args.get("email"))
+
+
+@user_page.route('/api/request_password_change/', methods=["GET"])
+def req_chng_pass():
+    return req_change_password(request.args.get("email"))
+
+@user_page.route('/api/change_password', methods=["PUT"])
+def chng_pass():
+    return change_password({"email":request.args.get("email"),"OTP":request.args.get("OTP"), "password":request.json["password"]})
+
