@@ -1,10 +1,12 @@
 from flask import jsonify
 from cerberus import Validator
 from models.kyc import KYC
+from models.bank import Banks
 from flask_bcrypt import bcrypt
 from controllers.user import User
 
 from schema.kyc import schema as kyc_schema
+# from schema.bank import schema as bank_schema
 
 from utils.utils import send_respose
 from utils.config import db_code
@@ -16,22 +18,43 @@ def post_kyc(data):
     if kyc:
         status = KYC.kyc_status(data["user_id"])
 
+        if status==db_code.kyc_status.rejected:
+            return send_respose(200,{},'KYC already submitted and got rejected!!',"")
+
         if status==db_code.kyc_status.verified:
-            return send_respose(200,kyc.json(),'Kyc already verified',"")
+            return send_respose(200,kyc.json(),'Kyc already verified!!',"")
 
         if status==db_code.kyc_status.under_review:
             return send_respose(200,kyc.json(),'Details are under review',"")
 
     # Now if details doesn't exist for supplied user id, then try to submit data
-    v = Validator(kyc_schema)
-    if v.validate(data):
-        kyc_data = KYC(**data)
-        if kyc_data:
-            try:
-                kyc_data.save_kyc_data()
-                return send_respose(200,{},"KYC details submitted successfully.","")
-            except:
-                return send_respose(401,{},"","Details were not submitted!!")
+    v1 = Validator(kyc_schema)
+    # v2 = Validator(bank_schema)
+    if v1.validate(data):
+        # create an instance of bank model
+        bank_data = Banks(**data)
+
+        # If instance creation was successful, then create a kyc instance
+        if bank_data:
+            #now insert the bank_id generated into the input data
+            data["bank_id"] = bank_data.id
+            kyc_data = KYC(**data)
+            
+            if kyc_data:
+                # try to add kyc data, but if it fails then make sure to remove the bank details
+                try:
+                    kyc_data.save_kyc_data()
+                    return send_respose(200,kyc_data.json(),"KYC details submitted successfully.","")
+                except Exception as e:
+                    print(e)
+                    bank_data.rollback_bank_data()
+                    return send_respose(401,{},"","Details were not submitted!!")
+            else:
+                return send_respose(401,{},"","Error in KYC data!!")
+
+        else:
+            return send_respose(401,{},"","Error in Bank Details!!")
+            
 
     return "Schema Validation failed!!"
 

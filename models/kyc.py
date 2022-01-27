@@ -8,15 +8,29 @@ class KYC(db.Model):
     user_id = db.Column(db.Integer, unique=True)
     created_at = db.Column(db.DateTime, default=datetime.now())
     updated_at = db.Column(db.DateTime,default=datetime.now())
+    company_type = db.Column(db.String(20), nullable=False)
     pancard = db.Column(db.String(10),nullable=False,unique=True)
     pancard_url = db.Column(db.String(100),nullable=False)
-    company_type = db.Column(db.String(20), nullable=False)
-    business_proof_used = db.Column(db.String(50), nullable=False)
-    business_proof_url = db.Column(db.String(100),nullable=False)
+    aadhar_card = db.Column(db.String(16),nullable=False,unique=True)
+    aadhar_card_url = db.Column(db.String(100),nullable=False)
     has_gst_number = db.Column(db.Integer,nullable=False)
     gst_number = db.Column(db.String(15))
+    bank_id = db.Column(db.Integer, nullable=False, unique=True)
     status_code = db.Column(db.Integer, default=1)
     status_message = db.Column(db.Text)
+
+    def __init__(self, **inp_data):
+        self.user_id = inp_data["user_id"]
+        self.company_type = inp_data["company_type"]
+        self.pancard = inp_data["pancard"]
+        self.pancard_url = inp_data["pancard_url"]
+        self.aadhar_card = inp_data["aadhar_card"]
+        self.aadhar_card_url = inp_data["aadhar_card_url"]
+        self.has_gst_number = inp_data["has_gst_number"]
+        self.bank_id = inp_data["bank_id"]
+
+        if (inp_data["has_gst_number"])==1:
+            self.gst_number = inp_data["gst_number"]
 
     def save_kyc_data(self):
         db.session.add(self)
