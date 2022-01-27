@@ -55,7 +55,7 @@ def post_user(data):
                 msg = Message(
                 f'Ship Rocket Email Verefication',
                 sender =os.environ.get("EMAIL"),
-                recipients = ['samdragneal@gmail.com']
+                recipients = [user.email]
                )
                 msg.body = f'Hello your otp is {generate_otp}'
                 mail.send(msg)
@@ -148,7 +148,7 @@ def resend_otp_for_user(email:str):
         msg = Message(
         f'Ship Rocket Email Verefication',
         sender =os.environ.get("EMAIL"),
-        recipients = ['samdragneal@gmail.com']
+        recipients = [user.email]
         )
         msg.body = f'Hello your otp is {generate_otp}'
         mail.send(msg)
@@ -175,10 +175,11 @@ def req_change_password(email):
         generate_otp = save_otp(user)
         url = f"http://127.0.0.1:5000/api/change_password?email={user.email}&OTP={generate_otp}"
 
+
         msg = Message(
         f'Ship Rocket Request Password Change',
         sender =os.environ.get("EMAIL"),
-        recipients = ['samdragneal@gmail.com']
+        recipients = [user.email]
         )
         msg.body = f'copy the link to your browser {url}'
         mail.send(msg)
