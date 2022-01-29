@@ -42,3 +42,8 @@ class User(db.Model):
     @classmethod
     def get_user_by_id(cls,id):
         return cls.query.filter_by(id=id).first()
+    
+    @classmethod
+    def delete_user(cls,id):
+        cls.query.filter_by(id=id).delete()
+        db.session.commit()    

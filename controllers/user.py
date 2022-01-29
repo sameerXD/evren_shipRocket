@@ -26,6 +26,8 @@ import datetime
 
 from werkzeug.security import safe_str_cmp
 
+
+
 # instantiate Mail object
 mail = Mail()
 
@@ -70,12 +72,12 @@ def post_user(data):
 
                 return send_respose(200,response_user,'successful signUp','')
 
-            except exc.IntegrityError as e:
-                # print(e.orig.args)
+            except Exception as e:
+                print("sameer fuck",e)
                 # catching duplicate error
-                if(e.orig.args[0]==1062):
-                    return send_respose(409,{},'unSuccessful signUp',e.orig.args[1])
-                return send_respose(400,{},'unSuccessful signUp','something went wrong')
+                User.delete_user(user.id)
+                
+                return send_respose(400,{},'unSuccessful signUp',str(e))
 
 
     return send_respose(400,{},'unSuccessful signUp','schema validation failed')
@@ -113,6 +115,7 @@ def verify_email(data):
             return send_respose(404,{},'unSuccessful verification','no OTP found associated to this email')
             
         except Exception as e:
+            print(e)
             return send_respose(500,{},'unSuccessful verification','Internal server error')
             
     return send_respose(400,{},'unSuccessful verification','schema validation failed')
