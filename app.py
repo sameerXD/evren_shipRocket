@@ -35,8 +35,8 @@ app.config['SECURITY_PASSWORD_SALT'] = os.environ.get("SECURITY_PASSWORD_SALT")
 # configuration of mail
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = "sameer.vashisth.egs@gmail.com"
-app.config['MAIL_PASSWORD'] = "letsNotWorkAtEvren@123"
+app.config['MAIL_USERNAME'] = os.environ.get("EMAIL")
+app.config['MAIL_PASSWORD'] = os.environ.get("PASSWORD")
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_DEBUG'] = True 
@@ -49,16 +49,7 @@ def create_table():
     db.create_all()
 
 
-@app.route("/api/sendmail", methods=["GET"])
-def sendMail():
-    msg = Message(
-        f'Ship Rocket Email Verefication',
-        sender ="sameer.vashisth.egs@gmail.com",
-        recipients = ["sameervashisht39@gmail.com"]
-        )
-    msg.body = f'Hello your otp is '
-    mail.send(msg)
-    return {"message":"mailsent"}
+
 
 
 
