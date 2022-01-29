@@ -28,7 +28,7 @@ def update_store(user,store_id):
         return update_store_details(request.json)
 
 
-@stores_page.route("/api/set/primary/<store_id>", methods=["PUT"])
+@stores_page.route("/api/set/primary/store/<store_id>", methods=["PUT"])
 @token_required
 def set_as_primary(user, store_id):
     if request.method == "PUT":

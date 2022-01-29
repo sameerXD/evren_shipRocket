@@ -6,7 +6,6 @@ from flask_bcrypt import bcrypt
 from controllers.user import User
 
 from schema.kyc import schema as kyc_schema
-# from schema.bank import schema as bank_schema
 
 from utils.utils import send_respose
 from utils.config import db_code
@@ -29,10 +28,11 @@ def post_kyc(data):
 
     # Now if details doesn't exist for supplied user id, then try to submit data
     v1 = Validator(kyc_schema)
-    # v2 = Validator(bank_schema)
+
     if v1.validate(data):
         # create an instance of bank model
         bank_data = Banks(**data)
+        bank_data.save_bank_data()
 
         # If instance creation was successful, then create a kyc instance
         if bank_data:
@@ -44,10 +44,17 @@ def post_kyc(data):
                 # try to add kyc data, but if it fails then make sure to remove the bank details
                 try:
                     kyc_data.save_kyc_data()
-                    return send_respose(200,kyc_data.json(),"KYC details submitted successfully.","")
+                    resp = {
+                        "kyc_id" = kyc_data.id,
+                        "aadhar" = kyc_data.aadhar_card,
+                        "pancard" = kyc_data.pancard,
+                        "bank_id" = kyc_data.bank_id,
+                        "status" = kyc_data.status_code
+                    }
+                    return send_respose(200,resp,"KYC details submitted successfully.","")
                 except Exception as e:
                     print(e)
-                    bank_data.rollback_bank_data()
+                    bank_data.delete_bank()
                     return send_respose(401,{},"","Details were not submitted!!")
             else:
                 return send_respose(401,{},"","Error in KYC data!!")
