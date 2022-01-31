@@ -62,4 +62,4 @@ if __name__=="__main__":
     db.init_app(app)
     mail.init_app(app)
     bcrypt =Bcrypt(app)
-    app.run(port=os.environ.get("BACKEND_PORT"),debug=True) 
+    app.run(debug=True) 
