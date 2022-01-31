@@ -25,7 +25,13 @@ app.register_blueprint(wallet)
 
 
 # tell the location of database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root@localhost/ship_rocket'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://sql6469394:e4jx2Gvypu@sql6.freesqldatabase.com/sql6469394'
+# turns off the flask sqlalchemy tracker ,as sqlalchemy modification tracker is better
+# Host: sql6.freesqldatabase.com
+# Database name: sql6469394
+# Database user: sql6469394
+# Database password: e4jx2Gvypu
+# Port number: 3306
 # turns off the flask sqlalchemy tracker ,as sqlalchemy modification tracker is better
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 app.config['SQLALCHEMY_ECHO']=True
