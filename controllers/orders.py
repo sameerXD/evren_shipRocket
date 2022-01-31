@@ -84,4 +84,9 @@ def create_order(data):
         return send_respose(402,{},"","Buyer Schema Failed")
 
 
+def fetch_all_orders(id):
+    return Orders.fetch_orders_by_user_id(id)
+
+
+
     

@@ -73,7 +73,7 @@ class Orders(db.Model):
         return cls.query.filter_by(user_id=user_id).all()
 
     @classmethod
-    def fetch_orders_by_user_id(cls, user_id, status):
+    def fetch_orders_by_user_id_and_status(cls, user_id, status):
         return cls.query.filter_by(user_id=user_id, status=status).all()
 
     @classmethod
