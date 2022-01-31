@@ -45,11 +45,11 @@ def post_kyc(data):
                 try:
                     kyc_data.save_kyc_data()
                     resp = {
-                        "kyc_id" = kyc_data.id,
-                        "aadhar" = kyc_data.aadhar_card,
-                        "pancard" = kyc_data.pancard,
-                        "bank_id" = kyc_data.bank_id,
-                        "status" = kyc_data.status_code
+                        "kyc_id" : kyc_data.id,
+                        "aadhar" : kyc_data.aadhar_card,
+                        "pancard" : kyc_data.pancard,
+                        "bank_id" : kyc_data.bank_id,
+                        "status" : kyc_data.status_code
                     }
                     return send_respose(200,resp,"KYC details submitted successfully.","")
                 except Exception as e:
