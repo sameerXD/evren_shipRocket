@@ -10,6 +10,10 @@ user_page = Blueprint('user',__name__ )
 def user_signIn():
     return signIn(request.json)
 
+@user_page.route("/api/users/hello", methods=["GET"])
+def user_signIn():
+    return {"MESS":"HELLO"}
+
 
 @user_page.route("/api/users", methods=["GET", "POST"])
 def user():
