@@ -11,7 +11,7 @@ def user_signIn():
     return signIn(request.json)
 
 @user_page.route("/api/users/hello", methods=["GET"])
-def user_signIn():
+def hello():
     return {"MESS":"HELLO"}
 
 
