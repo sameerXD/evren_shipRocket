@@ -45,16 +45,15 @@ def post_kyc(data):
                 try:
                     kyc_data.save_kyc_data()
                     resp = {
-                        "kyc_id" = kyc_data.id,
-                        "aadhar" = kyc_data.aadhar_card,
-                        "pancard" = kyc_data.pancard,
-                        "bank_id" = kyc_data.bank_id,
-                        "status" = kyc_data.status_code
+                        "id": kyc_data.kyc_id,
+                        "aadhar" : kyc_data.aadhar_card,
+                        "pancard" : kyc_data.pancard,
+                        "bank_id" : kyc_data.bank_id,
+                        "status" : kyc_data.status_code
                     }
-                    return send_respose(200,resp,"KYC details submitted successfully.","")
+                    return send_respose(200,kyc_data.json(),"KYC details submitted successfully.","")
                 except Exception as e:
-                    print(e)
-                    bank_data.delete_bank()
+                    print("fuck" ,e)
                     return send_respose(401,{},"","Details were not submitted!!")
             else:
                 return send_respose(401,{},"","Error in KYC data!!")

@@ -39,6 +39,7 @@ app.config['MAIL_USERNAME'] = os.environ.get("EMAIL")
 app.config['MAIL_PASSWORD'] = os.environ.get("PASSWORD")
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_DEBUG'] = True 
 mail= Mail()
 
 
@@ -46,6 +47,9 @@ mail= Mail()
 @app.before_first_request
 def create_table():
     db.create_all()
+
+
+
 
 
 

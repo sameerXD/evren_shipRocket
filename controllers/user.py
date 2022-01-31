@@ -26,6 +26,8 @@ import datetime
 
 from werkzeug.security import safe_str_cmp
 
+
+
 # instantiate Mail object
 mail = Mail()
 
@@ -55,7 +57,7 @@ def post_user(data):
                 msg = Message(
                 f'Ship Rocket Email Verefication',
                 sender =os.environ.get("EMAIL"),
-                recipients = ['samdragneal@gmail.com']
+                recipients = [user.email]
                )
                 msg.body = f'Hello your otp is {generate_otp}'
                 mail.send(msg)
@@ -70,12 +72,12 @@ def post_user(data):
 
                 return send_respose(200,response_user,'successful signUp','')
 
-            except exc.IntegrityError as e:
-                # print(e.orig.args)
+            except Exception as e:
+                print("sameer fuck",e)
                 # catching duplicate error
-                if(e.orig.args[0]==1062):
-                    return send_respose(409,{},'unSuccessful signUp',e.orig.args[1])
-                return send_respose(400,{},'unSuccessful signUp','something went wrong')
+                User.delete_user(user.id)
+                
+                return send_respose(400,{},'unSuccessful signUp',str(e))
 
 
     return send_respose(400,{},'unSuccessful signUp','schema validation failed')
@@ -113,6 +115,7 @@ def verify_email(data):
             return send_respose(404,{},'unSuccessful verification','no OTP found associated to this email')
             
         except Exception as e:
+            print(e)
             return send_respose(500,{},'unSuccessful verification','Internal server error')
             
     return send_respose(400,{},'unSuccessful verification','schema validation failed')
@@ -148,7 +151,7 @@ def resend_otp_for_user(email:str):
         msg = Message(
         f'Ship Rocket Email Verefication',
         sender =os.environ.get("EMAIL"),
-        recipients = ['samdragneal@gmail.com']
+        recipients = [user.email]
         )
         msg.body = f'Hello your otp is {generate_otp}'
         mail.send(msg)
@@ -175,10 +178,11 @@ def req_change_password(email):
         generate_otp = save_otp(user)
         url = f"http://127.0.0.1:5000/api/change_password?email={user.email}&OTP={generate_otp}"
 
+
         msg = Message(
         f'Ship Rocket Request Password Change',
         sender =os.environ.get("EMAIL"),
-        recipients = ['samdragneal@gmail.com']
+        recipients = [user.email]
         )
         msg.body = f'copy the link to your browser {url}'
         mail.send(msg)
