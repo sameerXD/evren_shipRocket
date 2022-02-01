@@ -26,7 +26,7 @@ app.register_blueprint(wallet)
 
 # tell the location of database
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://sql6469394:e4jx2Gvypu@sql6.freesqldatabase.com/sql6469394'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('postgres://cwopiuxircrysg:913b906ac9fa271d1af16ace398ad6d745c08087ad22e8d650e68115af78b1b3@ec2-34-205-46-149.compute-1.amazonaws.com:5432/d588klnuohlpti','mysql+pymysql://sql6469394:e4jx2Gvypu@sql6.freesqldatabase.com/sql6469394')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('postgres://cwopiuxircrysg:913b906ac9fa271d1af16ace398ad6d745c08087ad22e8d650e68115af78b1b3@ec2-34-205-46-149.compute-1.amazonaws.com:5432/d588klnuohlpti')
 # turns off the flask sqlalchemy tracker ,as sqlalchemy modification tracker is better
 # Host: sql6.freesqldatabase.com
 # Database name: sql6469394
