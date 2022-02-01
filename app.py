@@ -52,20 +52,11 @@ app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_DEBUG'] = True 
 mail= Mail()
 
-from db import db
-db.init_app(app)
-
-# we can create the db and tables using sql alchemy 
-@app.before_first_request
-def create_table():
-    db.create_all()
-
-
-
-
 
 
 if __name__=="__main__":
+    from db import db
+    db.init_app(app)
     mail.init_app(app)
     bcrypt =Bcrypt(app)
     app.run(debug=True) 
