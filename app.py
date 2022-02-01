@@ -46,15 +46,21 @@ app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_DEBUG'] = True 
 mail= Mail()
 
+from db import db
+
+db.init_app(app, engine_options={"pool_pre_ping": True})
 
 # we can create the db and tables using sql alchemy 
+
 @app.before_first_request
 def create_table():
     db.create_all()
 
 
-
-
+# we can create the db and tables using sql alchemy 
+@app.before_first_request
+def create_table():
+    db.create_all()
 
 
 if __name__=="__main__":
