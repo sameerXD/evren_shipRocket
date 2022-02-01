@@ -18,4 +18,13 @@ class db_code:
         ready_for_pickup = 2
         pickep_up = 3
         completed = 4
-
+    
+    class wallet:
+        credit= 0
+        debit = 1
+        clear = 1
+        unclear =0
+        order_place=0
+        deposit_bank=1
+        refund=2
+        wallet_init_amount= 1200*100

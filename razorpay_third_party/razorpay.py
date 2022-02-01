@@ -27,7 +27,7 @@ def generate_order(amount):
     return context
 
 
-def verify_payment(request):
+def verify_payment(request, amount):
         try:
            
             # get the required parameters from post request.
@@ -43,10 +43,15 @@ def verify_payment(request):
             # verify the payment signature.
             razorpay_client.utility.verify_payment_signature(
                 params_dict)
+
             resp= razorpay_client.payment.fetch(payment_id)
+            pay_det = {x: resp[x] for x in resp.keys()}
             
-            return resp
+            # print("resp ",pay_det)
+            razorpay_client.payment.capture(payment_id, amount)
+            
+            return pay_det
         except Exception as e:
-            print(e)
             # if we don't find the required parameters in POST data
-            return send_respose(400, {}, "payment failed", " we don't find the required parameters")    
+            raise ValueError(str(e)) 
+ 
