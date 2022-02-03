@@ -48,7 +48,7 @@ def verify_payment(request, amount):
             pay_det = {x: resp[x] for x in resp.keys()}
             
             # print("resp ",pay_det)
-            razorpay_client.payment.capture(payment_id, amount)
+            # razorpay_client.payment.capture(payment_id, amount)
             
             return pay_det
         except Exception as e:

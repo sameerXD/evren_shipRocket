@@ -28,3 +28,17 @@ class db_code:
         deposit_bank=1
         refund=2
         wallet_init_amount= 1200*100
+
+    class Transaction:
+        evren_user = 0
+        trans_type_credit = 0    
+        trans_type_debit = 1  
+        kind_of_txn_deposit = 0
+        kind_of_txn_order = 1 
+        kind_of_txn_refund = 2 
+        kind_of_txn_cod = 3
+        payment_auth = "authorized"
+        payment_captured = "captured"
+
+
+    

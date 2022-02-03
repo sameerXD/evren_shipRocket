@@ -15,7 +15,6 @@ def create_order():
 def handle_payment(user):
     return paymenthandler(request.form,user)
 
-@wallet.route('/createWallet')
-@token_required
-def create_wallet_user(user):
-    return create_wallet(user)
+# @wallet.route('/api/wallet/testTrans', methods=["POST"])
+# def create_wallet_user():
+#     return test_transaction()
