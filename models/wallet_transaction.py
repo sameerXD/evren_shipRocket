@@ -13,6 +13,7 @@ class Wallet_transaction(db.Model):
     transaction_id = db.Column(db.String(100), nullable=False)
     balance_state = db.Column(db.Integer)
     balance = db.Column(db.DECIMAL(19, 4))
+    final_balance = db.Column(db.DECIMAL(19, 4))
 
     def save_wallet(self):
         db.session.add(self)

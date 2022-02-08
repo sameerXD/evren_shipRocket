@@ -46,7 +46,8 @@ def create_wallet(user, trans_det):
             "balance_state":db_code.wallet.clear,
             "transaction_category":db_code.wallet.deposit_bank,
             "transaction_id":trans_det["id"],
-            "balance":trans_det["amount"]
+            "balance":trans_det["amount"],
+            "final_balance":trans_det["amount"],
 
         }
         wallet_transaction = Wallet_transaction(**data)
@@ -104,7 +105,8 @@ def add_money(user, trans_det):
             "balance_state":db_code.wallet.clear,
             "transaction_category":db_code.wallet.deposit_bank,
             "transaction_id":trans_det["id"],
-            "balance":trans_det["amount"]
+            "balance":trans_det["amount"],
+            "final_balance":updated_balance
 
         }
         wallet_transaction = Wallet_transaction(**wallet_trans_data)

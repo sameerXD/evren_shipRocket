@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, make_response, render_template
 from cerberus import Validator
 from models.orders import Orders
 from models.buyers import Buyers
@@ -8,6 +8,8 @@ from flask_bcrypt import bcrypt
 from schema.orders import schema as orders_schema
 from schema.product import schema as product_schema
 from schema.buyer import schema as buyer_schema
+
+import pdfkit
 
 from utils.utils import send_respose
 
@@ -37,7 +39,8 @@ def create_order(data):
                     Buyers.delete(buyer.id)
                     return send_respose(402, {},"","Error in creating order!!")
 
-                # ADD ALL THE PRODUCTS ONE BY ONE, BUT COMMIT AT THE LAST, IF UNSUCESSFUL IN ADDING ANY PRODUCT --> DELETE BUYER, ORDER, ROLLBACK THE ADDED PRODUCTS AND RETURN ERROR
+                # ADD ALL THE PRODUCTS ONE BY ONE, BUT COMMIT AT THE LAST, IF UNSUCESSFUL IN ADDING ANY PRODUCT --> 
+                # DELETE BUYER, ORDER, ROLLBACK THE ADDED PRODUCTS AND RETURN ERROR
                 if new_order:
                     data["order_id"] = new_order.id
 
@@ -88,5 +91,14 @@ def fetch_all_orders(id):
     return Orders.fetch_orders_by_user_id(id)
 
 
+def generate_invoice(order_id):
+    path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+    rendered = render_template('invoice_template.html', order_id=order_id)
+    pdf = pdfkit.from_string(rendered, False, configuration=config)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename=output.pdf'
 
-    
+    return response
+
