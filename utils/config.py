@@ -18,4 +18,27 @@ class db_code:
         ready_for_pickup = 2
         pickep_up = 3
         completed = 4
+    
+    class wallet:
+        credit= 0
+        debit = 1
+        clear = 1
+        unclear =0
+        order_place=0
+        deposit_bank=1
+        refund=2
+        wallet_init_amount= 1200*100
 
+    class Transaction:
+        evren_user = 0
+        trans_type_credit = 0    
+        trans_type_debit = 1  
+        kind_of_txn_deposit = 0
+        kind_of_txn_order = 1 
+        kind_of_txn_refund = 2 
+        kind_of_txn_cod = 3
+        payment_auth = "authorized"
+        payment_captured = "captured"
+
+
+    
