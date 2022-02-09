@@ -1,9 +1,12 @@
 from controllers.user import get_user, post_user,  signIn,get_user_profile,verify_email,resend_otp_for_user,req_change_password,change_password
 from flask import Blueprint , request
 from utils.security import token_required
+from flask_cors import CORS
 
+cors = CORS()
 
 user_page = Blueprint('user',__name__ )
+cors.init_app(user_page, resources={r"/*": {"origins": "*", "supports_credentials": True}})
 
 
 @user_page.route("/api/users/signIn", methods=["POST"])

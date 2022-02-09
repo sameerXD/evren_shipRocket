@@ -3,7 +3,7 @@ import os
 from flask_bcrypt import Bcrypt
 
 from flask_mail import Mail,Message
-
+from flask_cors import CORS
 
 app = Flask(__name__)
 
@@ -37,14 +37,16 @@ app.config['SECURITY_PASSWORD_SALT'] = os.environ.get("SECURITY_PASSWORD_SALT")
 
 # mail config
 # configuration of mail
-app.config['MAIL_SERVER']='smtp.office365.com'
-app.config['MAIL_PORT'] = 587 
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = os.environ.get("EMAIL")
 app.config['MAIL_PASSWORD'] = os.environ.get("PASSWORD")
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
 app.config['MAIL_DEBUG'] = True 
 mail= Mail()
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 # we can create the db and tables using sql alchemy 
