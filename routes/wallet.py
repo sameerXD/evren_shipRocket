@@ -1,6 +1,8 @@
-from controllers.wallet import homepage,paymenthandler, create_wallet
+from controllers.wallet import homepage,paymenthandler, create_wallet, get_ballance
 
 from flask import Blueprint , request
+
+import requests
 
 from utils.security import token_required
 
@@ -15,6 +17,12 @@ def create_order():
 def handle_payment(user):
     return paymenthandler(request.form,user)
 
-# @wallet.route('/api/wallet/testTrans', methods=["POST"])
-# def create_wallet_user():
-#     return test_transaction()
+@wallet.route('/api/wallet/getBallance/', methods=["GET"])
+@token_required
+def get_wallet_ballance(user):
+    return get_ballance(user)
+
+
+@wallet.route('/api/wallet/testTrans', methods=["GET"])
+def create_wallet_user():
+    return requests.get("https://api.genderize.io/?name=luc").content

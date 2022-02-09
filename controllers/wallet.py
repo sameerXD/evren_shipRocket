@@ -137,6 +137,19 @@ def add_money(user, trans_det):
     return send_respose(200, {"payment_id":trans_det["id"]}, "money added to wallet", '')
 
 
+def get_ballance(user):
+    wallet = Wallet.get_wallet_by_user_id(user.id)
+    response = {
+        "id":user.id
+    }
+    if(not wallet):
+        response["ballance"]= 0
+    else:
+        response["ballance"]= wallet.balance
+    
+    return send_respose(200, response, "money in wallet", '')
+
+
 
 
 # def test_transaction():
