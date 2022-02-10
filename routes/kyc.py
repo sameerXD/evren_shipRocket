@@ -2,7 +2,14 @@ from controllers.kyc import post_kyc, get_kyc_details, update_details
 from flask import Blueprint , request
 from utils.security import token_required
 
+
+from flask_cors import CORS
+
+cors = CORS()
+
 kyc_page = Blueprint('kyc',__name__)
+cors.init_app(kyc_page, resources={r"/*": {"origins": "*", "supports_credentials": True}})
+
 
 @kyc_page.route("/api/user/kyc",methods=["POST"])
 @token_required

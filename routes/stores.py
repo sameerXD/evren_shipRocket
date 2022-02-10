@@ -2,7 +2,13 @@ from controllers.stores import add_store, all_stores, update_store_details, set_
 from flask import Blueprint , request
 from utils.security import token_required
 
+from flask_cors import CORS
+
+cors = CORS()
+
 stores_page = Blueprint('stores',__name__)
+cors.init_app(stores_page, resources={r"/*": {"origins": "*", "supports_credentials": True}})
+
 
 @stores_page.route("/api/add/store",methods=["POST"])
 @token_required

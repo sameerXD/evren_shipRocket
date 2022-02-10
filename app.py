@@ -4,6 +4,7 @@ from flask_bcrypt import Bcrypt
 
 from flask_mail import Mail,Message
 
+from flask_cors import CORS
 
 app = Flask(__name__)
 
@@ -45,6 +46,9 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 app.config['MAIL_DEBUG'] = True 
 mail= Mail()
+
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 # we can create the db and tables using sql alchemy 

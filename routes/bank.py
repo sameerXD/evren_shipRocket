@@ -2,7 +2,13 @@ from controllers.bank import add_bank_account, show_bank_accounts, set_primary_a
 from flask import Blueprint , request
 from utils.security import token_required
 
+from flask_cors import CORS
+
+cors = CORS()
+
 bank_page = Blueprint('bank',__name__)
+cors.init_app(bank_page, resources={r"/*": {"origins": "*", "supports_credentials": True}})
+
 
 @bank_page.route("/api/add/bank/account",methods=["POST"])
 @token_required

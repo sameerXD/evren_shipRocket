@@ -6,7 +6,12 @@ import requests
 
 from utils.security import token_required
 
+from flask_cors import CORS
+
+cors = CORS()
+
 wallet = Blueprint('wallet',__name__)
+cors.init_app(wallet, resources={r"/*": {"origins": "*", "supports_credentials": True}})
 
 @wallet.route('/api/wallet/createOrder', methods=["GET"])
 def create_order():
