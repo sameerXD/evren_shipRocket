@@ -14,7 +14,7 @@ from routes.kyc import kyc_page
 from routes.stores import stores_page
 from routes.bank import bank_page
 from routes.orders import orders_page
-from routes.wallet import wallet
+from routes.wallet import wallet_page
 
 # register blueprints
 app.register_blueprint(user_page)
@@ -22,7 +22,7 @@ app.register_blueprint(kyc_page)
 app.register_blueprint(stores_page)
 app.register_blueprint(bank_page)
 app.register_blueprint(orders_page)
-app.register_blueprint(wallet)
+app.register_blueprint(wallet_page)
 
 
 # tell the location of database

@@ -1,6 +1,8 @@
-from flask import render_template
+from flask import jsonify, render_template
 from utils.utils import send_respose
 from utils.config import db_code
+
+import json
 
 from razorpay_third_party import razorpay
 
@@ -148,6 +150,17 @@ def get_ballance(user):
         response["ballance"]= wallet.balance
     
     return send_respose(200, response, "money in wallet", '')
+
+def get_wallet_transaction(user):
+    get_wallet_transaction_data = Wallet_transaction.get_wallet_by_user_id(user.id)
+    response = []
+    
+    for obj in get_wallet_transaction_data:
+        response.append(obj.json())
+
+    return send_respose(200, response, "wallet transactions", '')
+
+
 
 
 

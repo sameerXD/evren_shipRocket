@@ -1,4 +1,4 @@
-from controllers.wallet import homepage,paymenthandler, create_wallet, get_ballance
+from controllers.wallet import homepage,paymenthandler, create_wallet, get_ballance, get_wallet_transaction
 
 from flask import Blueprint , request
 
@@ -26,6 +26,11 @@ def handle_payment(user):
 @token_required
 def get_wallet_ballance(user):
     return get_ballance(user)
+
+@wallet_page.route('/api/wallet/getWalletTransaction/', methods=["GET"])
+@token_required
+def get__user_wallet_transaction(user):
+    return get_wallet_transaction(user)
 
 
 @wallet_page.route('/api/wallet/testTrans', methods=["GET"])

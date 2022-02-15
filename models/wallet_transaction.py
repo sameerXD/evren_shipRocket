@@ -26,7 +26,7 @@ class Wallet_transaction(db.Model):
 
     @classmethod
     def get_wallet_by_user_id(cls,user_id):
-        return cls.query.filter_by(user_id=user_id).first()
+        return cls.query.filter_by(user_id=user_id).all()
 
     def commit_row():
         db.session.commit()
